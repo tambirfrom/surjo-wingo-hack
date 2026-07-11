@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>S̷U̷R̷J̷O̷_̷(̷V̷A̷I̷)̷ ̷3̷X̷ᵀ̷ᴹ̷ ̷B̷O̷T̷/FX/HAck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body, html { width: 100%; height: 100%; overflow: hidden; background: #070412; font-family: 'Rajdhani', sans-serif; color: #fff; }
+
+        /* TAB SYSTEM VIEWPORTS */
+        .tab-content { width: 100%; height: calc(100% - 60px); display: none; position: relative; }
+        .tab-content.active { display: block; }
+
+        /* TAB 1: SITE FRAME */
+        .game-frame { width: 100%; height: 100%; border: none; background: #000; }
+
+        /* FLOATING ACCESS BUTTON */
+        .floating-action-btn {
+            position: fixed; top: 80px; right: 16px; width: 55px; height: 55px;
+            border-radius: 50%; z-index: 99999; cursor: pointer; touch-action: none;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(255,255,255,0.2);
+            border: 2px solid #00f0ff; background-image: url('https://i.ibb.co.com/40nPjwW/IMG-20260530-010358-490.jpg');
+            background-size: cover; background-position: center;
+        }
+
+        /* SECURE BOT MODAL / GATE WINDOW */
+        .bot-gate-modal {
+            position: fixed; inset: 0; background: rgba(5, 3, 13, 0.85); backdrop-filter: blur(8px);
+            z-index: 100000; display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .gate-card {
+            background: rgba(13, 8, 30, 0.95); border: 2px solid #00f0ff; border-radius: 24px;
+            width: 100%; max-width: 320px; padding: 30px 20px; text-align: center;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
+        }
+        .apple-logo-img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid #ff0055; margin-bottom: 15px; }
+        .pin-field {
+            width: 100%; background: rgba(0,0,0,0.6); border: 1.5px solid #ff0055; border-radius: 12px;
+            padding: 12px; color: #fff; font-size: 14px; text-align: center; outline: none;
+            font-family: 'Orbitron', sans-serif; margin-bottom: 15px; letter-spacing: 2px;
+        }
+        .unlock-action-btn {
+            background: linear-gradient(95deg, #00f0ff, #ff0055); width: 100%; border: none;
+            padding: 12px; border-radius: 12px; font-weight: 800; font-family: 'Orbitron', sans-serif;
+            color: white; font-size: 13px; cursor: pointer; text-transform: uppercase;
+        }
+
+        /* TAB 2: TELEGRAM STYLE BOT INTERFACE */
+        .bot-room-wrapper { width: 100%; height: 100%; background: #0e0a22; display: flex; flex-direction: column; }
+        .bot-header-bar {
+            background: #130d2e; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .bot-profile { display: flex; align-items: center; gap: 12px; }
+        .bot-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid #00ffaa; }
+        .bot-meta .name { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: #00ffaa; }
+        .bot-meta .status { font-size: 11px; color: #a19cb9; }
+        .interval-selectors { display: flex; gap: 8px; }
+        .mode-select-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; padding: 6px 12px; font-family: 'Orbitron', sans-serif; font-size: 10px;
+            font-weight: 700; border-radius: 8px; cursor: pointer;
+        }
+        .mode-select-btn.active { background: #00f0ff; color: #000; border-color: #00f0ff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
+
+        .chat-scroll-area { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: #090616; }
+        
+        /* TELEGRAM STICKER BUBBLES */
+        .msg-container { display: flex; flex-direction: column; width: 100%; max-width: 75%; animation: msgFade 0.3s cubic-bezier(0.1, 0.8, 0.3, 1); }
+        .msg-container.incoming { align-self: flex-start; }
+        .sticker-card { background: rgba(255,255,255,0.02); border-radius: 16px; padding: 6px; display: inline-block; }
+        .sticker-render-element { max-width: 140px; max-height: 140px; border-radius: 12px; display: block; object-fit: contain; }
+        .msg-info-footer { font-size: 9px; color: #625d7e; margin-top: 4px; padding-left: 4px; font-family: 'Orbitron', sans-serif; }
+
+        @keyframes msgFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* TAB 3: STEP CALCULATOR */
+        .calculator-view-box { padding: 25px 20px; overflow-y: auto; height: 100%; background: #0a061a; }
+        .c-headline { font-size: 22px; font-weight: 800; color: #00f0ff; text-align: center; margin-bottom: 25px; font-family: 'Orbitron', sans-serif; }
+        .calc-input-row { width: 100%; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 16px; outline: none; font-family: 'Rajdhani', sans-serif; }
+        .calc-input-row:focus { border-color: #00f0ff; }
+        .action-calc-trigger { width: 100%; background: linear-gradient(135deg, #00f0ff, #ff0055); color: #fff; padding: 15px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; font-family: 'Orbitron', sans-serif; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        
+        .step-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; font-weight: 700; text-align: center; background: #110b29; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .step-table th { background: #19113d; color: #00f0ff; padding: 14px 10px; font-size: 12px; font-family: 'Orbitron', sans-serif; }
+        .step-table td { padding: 14px 10px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .td-amount { color: #00ffaa; }
+        .td-cost { color: #ff0055; }
+
+        /* FIXED APP NAVIGATION NAVBAR */
+        .fixed-application-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 60px;
+            background: #110a29; border-top: 2px solid #00f0ff;
+            display: flex; align-items: center; justify-content: space-around; z-index: 99998;
+        }
+        .nav-action-item {
+            flex: 1; background: none; border: none; height: 100%; color: #8680a9;
+            font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700;
+            cursor: pointer; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 4px; transition: all 0.2s ease;
+        }
+        .nav-action-item i { font-size: 16px; }
+        .nav-action-item.active { color: #00f0ff; text-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
+    </style>
+</head>
+<body>
+
+    <div class="floating-action-btn" id="secureControlWidget"></div>
+
+    <div class="bot-gate-modal" id="securityAccessModal">
+        <div class="gate-card">
+            <img src="https://i.ibb.co.com/BVPnqWmh/e88829004e37e4bf5d004eec7cfeb033.jpg" class="apple-logo-img" alt="Logo">
+            <h3 style="font-family:'Orbitron'; font-size:16px; margin-bottom:15px; color:#00f0ff;">SECURE SIGN-IN</h3>
+            <input type="password" id="secureGatePin" class="pin-field" placeholder="••••••••">
+            <button id="executeUnlockNode" class="unlock-action-btn">VALIDATE SYSTEM</button>
+        </div>
+    </div>
+
+    <div id="tabViewportSite" class="tab-content active">
+        <iframe class="game-frame" src="https://23bdwin24.com/register?inviteCode=FWKWPEN&from=web"></iframe>
+    </div>
+
+    <div id="tabViewportBot" class="tab-content">
+        <div class="bot-room-wrapper">
+            <div class="bot-header-bar">
+                <div class="bot-profile">
+                    <img src="https://i.ibb.co.com/BVPnqWmh/e88829004e37e4bf5d004eec7cfeb033.jpg" class="bot-avatar" alt="Avatar">
+                    <div class="bot-meta">
+                        <div class="name">S̷U̷R̷J̷O̷_̷(̷V̷A̷I̷)̷ ̷3̷X̷ᵀ̷ᴹ̷ ̷B̷O̷T̷</div>
+                        <div class="status">AI Engine Live Connected</div>
+                    </div>
+                </div>
+                <div class="interval-selectors">
+                    <button class="mode-select-btn active" onclick="updateTimeTarget(30)">30S</button>
+                    <button class="mode-select-btn" onclick="updateTimeTarget(60)">1M</button>
+                </div>
+            </div>
+            
+            <div class="chat-scroll-area" id="botMessageScrollFeed">
+            </div>
+        </div>
+    </div>
+
+    <div id="tabViewportCalc" class="tab-content">
+        <div class="calculator-view-box">
+            <div class="c-headline"><i class="fas fa-calculator"></i> STEP MANAGER</div>
+            <input type="number" id="capitalAssetFlow" class="calc-input-row" placeholder="Enter Total Capital (e.g. 500)">
+            <input type="number" id="stepSequenceLimit" class="calc-input-row" placeholder="Number of Steps (e.g. 5)">
+            <button id="triggerComputeChart" class="action-calc-trigger">GENERATE FINANCIAL PLAN</button>
+            <div id="calcTableRenderZone" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <div class="fixed-application-nav">
+        <button class="nav-action-item active" onclick="shiftActiveViewport('tabViewportSite', this)"><i class="fas fa-globe"></i>SITE</button>
+        <button class="nav-action-item" onclick="shiftActiveViewport('tabViewportBot', this)"><i class="fas fa-robot"></i>BOT SIGNAL</button>
+        <button class="nav-action-item" onclick="shiftActiveViewport('tabViewportCalc', this)"><i class="fas fa-layer-group"></i>STEP TRADING</button>
+    </div>
+
+    <script>
+        (function(){
+            const SECURITY_HASH_NODE = "RlgtMjEyMg=="; 
+            let systemUnlockedStatus = false;
+            let currentTargetInterval = 30;
+            let pollingThread = null;
+            let lastTrackedPeriodId = "";
+
+            let activeExecutionEngine = "math"; 
+            let streakWinCounter = 0;
+            let streakLossCounter = 0;
+
+            // Free Light Notification Tone
+            const NOTIFICATION_SOUND_URL = "https://assets.mixkit.co/active_storage/sfx/2357/2357-84.wav";
+            const soundEngine = new Audio(NOTIFICATION_SOUND_URL);
+            soundEngine.volume = 0.6;
+            
+            const API_ENDPOINTS = {
+                30: 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json',
+                60: 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json'
+            };
+
+            const floatingBtn = document.getElementById('secureControlWidget');
+            let dragThreshold = false, startX=0, startY=0;
+
+            floatingBtn.addEventListener('mousedown', (e) => { dragThreshold = true; startX = e.clientX - floatingBtn.offsetLeft; startY = e.clientY - floatingBtn.offsetTop; });
+            window.addEventListener('mousemove', (e) => {
+                if (!dragThreshold) return;
+                floatingBtn.style.left = Math.min(Math.max(10, e.clientX - startX), window.innerWidth - 65) + 'px';
+                floatingBtn.style.top = Math.min(Math.max(10, e.clientY - startY), window.innerHeight - 130) + 'px';
+            });
+            window.addEventListener('mouseup', () => dragThreshold = false);
+            
+            floatingBtn.addEventListener('touchstart', (e) => { dragThreshold = true; startX = e.touches[0].clientX - floatingBtn.offsetLeft; startY = e.touches[0].offsetTop; }, {passive:true});
+            window.addEventListener('touchmove', (e) => {
+                if (!dragThreshold) return;
+                floatingBtn.style.left = Math.min(Math.max(10, e.touches[0].clientX - startX), window.innerWidth - 65) + 'px';
+                floatingBtn.style.top = Math.min(Math.max(10, e.touches[0].clientY - startY), window.innerHeight - 130) + 'px';
+            }, {passive:true});
+            window.addEventListener('touchend', () => dragThreshold = false);
+
+            floatingBtn.addEventListener('click', () => {
+                if(!systemUnlockedStatus) {
+                    document.getElementById('securityAccessModal').style.display = 'flex';
+                } else {
+                    shiftActiveViewport('tabViewportBot', document.querySelectorAll('.nav-action-item')[1]);
+                }
+            });
+
+            document.getElementById('executeUnlockNode').addEventListener('click', () => {
+                const userPin = document.getElementById('secureGatePin').value.trim();
+                if(btoa(userPin) === SECURITY_HASH_NODE) {
+                    systemUnlockedStatus = true;
+                    document.getElementById('securityAccessModal').style.display = 'none';
+                    shiftActiveViewport('tabViewportBot', document.querySelectorAll('.nav-action-item')[1]);
+                    // User click interaction safely primes audio on mobile browsers
+                    soundEngine.play().then(() => soundEngine.pause()).catch(e => console.log("Audio ready"));
+                    initializeDataPolling();
+                } else {
+                    alert("⛔ SECURITY INTERACTION FAILED: INVALID ACCESS KEY");
+                }
+            });
+
+            window.shiftActiveViewport = function(targetId, buttonNode) {
+                if((targetId === 'tabViewportBot' || targetId === 'tabViewportCalc') && !systemUnlockedStatus) {
+                    document.getElementById('securityAccessModal').style.display = 'flex';
+                    return;
+                }
+                document.querySelectorAll('.tab-content').forEach(view => view.classList.remove('active'));
+                document.querySelectorAll('.nav-action-item').forEach(btn => btn.classList.remove('active'));
+                
+                document.getElementById(targetId).classList.add('active');
+                buttonNode.classList.add('active');
+            }
+
+            window.updateTimeTarget = function(sec) {
+                currentTargetInterval = sec;
+                document.querySelectorAll('.mode-select-btn').forEach(b => b.classList.remove('active'));
+                event.target.classList.add('active');
+                lastTrackedPeriodId = ""; 
+                fetchNetworkData();
+            }
+
+            function initializeDataPolling() {
+                fetchNetworkData();
+                if(pollingThread) clearInterval(pollingThread);
+                pollingThread = setInterval(() => {
+                    const unixSec = Math.floor(Date.now() / 1000);
+                    const rem = currentTargetInterval - (unixSec % currentTargetInterval);
+                    if(rem === currentTargetInterval || rem === (currentTargetInterval - 1)) {
+                        fetchNetworkData();
+                    }
+                }, 1000);
+            }
+
+            async function fetchNetworkData() {
+                if(!systemUnlockedStatus) return;
+                try {
+                    const endpoint = API_ENDPOINTS[currentTargetInterval];
+                    const networkCall = await fetch(`${endpoint}?t=${Date.now()}`);
+                    const jsonPayload = await networkCall.json();
+                    
+                    if(jsonPayload?.data?.list?.length >= 5) {
+                        const historyDataset = jsonPayload.data.list;
+                        const latestFinishedPeriod = historyDataset[0].issueNumber;
+                        const incomingActivePeriod = (BigInt(latestFinishedPeriod) + 1n).toString();
+                        
+                        if(incomingActivePeriod !== lastTrackedPeriodId) {
+                            evaluateWinLossStreaks(historyDataset);
+                            lastTrackedPeriodId = incomingActivePeriod;
+                            executeHybridPrediction(historyDataset, incomingActivePeriod);
+                        }
+                    }
+                } catch(err) { console.error("Data tracking pipe error: ", err); }
+            }
+
+            function executeHybridPrediction(dataset, activePeriodId) {
+                let calculatedVerdict = "SMALL";
+                let computedCoreValue = 0;
+
+                const numbers = dataset.slice(0, 5).map(item => parseInt(item.number));
+                const periodString = activePeriodId.toString();
+                const lastDigitOfPeriod = parseInt(periodString.charAt(periodString.length - 1));
+
+                if (activeExecutionEngine === "math") {
+                    const finalSum = numbers[0] + numbers[1] - numbers[2] + numbers[3] - numbers[4];
+                    computedCoreValue = Math.abs(finalSum - lastDigitOfPeriod) % 10;
+                    calculatedVerdict = (computedCoreValue >= 5) ? "BIG" : "SMALL";
+                } else if (activeExecutionEngine === "boyLogic") {
+                    let weightSum = (numbers[0]*5) + (numbers[1]*4) + (numbers[2]*3) + (numbers[3]*2) + (numbers[4]*1);
+                    computedCoreValue = Math.floor((weightSum / 15) + (Math.abs(numbers[0] - numbers[1]) + Math.abs(numbers[1] - numbers[2])) / 2) % 10;
+                    calculatedVerdict = (computedCoreValue >= 5) ? "BIG" : "SMALL";
+                } else {
+                    calculatedVerdict = Math.random() >= 0.5 ? "BIG" : "SMALL";
+                }
+
+                const targetFile = (calculatedVerdict === "BIG") ? "big.webp" : "samll.webp";
+                appendStickerMessage("incoming", targetFile, `TARGET ISSUE: ${activePeriodId.slice(-4)} (${activeExecutionEngine.toUpperCase()} ENGINE)`);
+                
+                window.lastPredictionGiven = calculatedVerdict;
+            }
+
+            function evaluateWinLossStreaks(dataset) {
+                if (!window.lastPredictionGiven) return;
+                
+                const realDrawnNumber = parseInt(dataset[0].number);
+                const trueResultOutcome = (realDrawnNumber >= 5) ? "BIG" : "SMALL";
+                const predictionSucceeded = (window.lastPredictionGiven === trueResultOutcome);
+
+                if (predictionSucceeded) {
+                    streakWinCounter++;
+                    let previousLossCount = streakLossCounter;
+                    streakLossCounter = 0;
+
+                    if (previousLossCount === 4) {
+                        appendStickerMessage("incoming", "4step.jpg", "✅ 4-STEP RECOVERY PROFIT WIN!");
+                    } else if (previousLossCount === 5) {
+                        appendStickerMessage("incoming", "5step.jpg", "🔥 5-STEP RECOVERY PROFIT WIN!");
+                    } else if (previousLossCount === 6) {
+                        appendStickerMessage("incoming", "6step.mp4", "👑 Giga-Recovery 6-STEP WIN!");
+                    } else {
+                        if (streakWinCounter === 3) appendStickerMessage("incoming", "3win.webm", "🔥 TIGHT WINNING STREAK x3!");
+                        else if (streakWinCounter === 4) appendStickerMessage("incoming", "4win.webm", "🚀 INCREDIBLE STREAK WIN x4!");
+                        else if (streakWinCounter === 5) appendStickerMessage("incoming", "5win.webm", "⚡ UNSTOPPABLE WINNING STREAK x5!");
+                        else if (streakWinCounter === 6) appendStickerMessage("incoming", "6win.webm", "👑 GOD MODE WINNING STREAK x6!");
+                        else appendStickerMessage("incoming", "win.webm", `🎯 PROFIT WIN! NUMBER OUTCOME: [${realDrawnNumber}]`);
+                    }
+                } else {
+                    streakLossCounter++;
+                    streakWinCounter = 0;
+
+                    if (streakLossCounter === 5) appendStickerMessage("incoming", "5loss.webp", "⚠️ 5-LOSS STREAK PROTECTION ACTIVE");
+                    else if (streakLossCounter === 6) appendStickerMessage("incoming", "6loss.jpg", "🚨 CRITICAL MARKET ENGINE DOWN (6-LOSS)");
+                    else appendStickerMessage("incoming", "loss.jpg", `❌ MARKET REGULATION LOSS. REORGANIZING DATA...`);
+                }
+
+                if (activeExecutionEngine === "math" && streakLossCounter >= 2) {
+                    activeExecutionEngine = "guess";
+                    streakLossCounter = 0;
+                } else if (activeExecutionEngine === "guess") {
+                    if (streakLossCounter >= 2 || streakWinCounter >= 3) {
+                        activeExecutionEngine = "boyLogic";
+                        streakLossCounter = 0; streakWinCounter = 0;
+                    }
+                } else if (activeExecutionEngine === "boyLogic") {
+                    if (streakWinCounter >= 4 || streakLossCounter >= 3) {
+                        activeExecutionEngine = "math";
+                        streakLossCounter = 0; streakWinCounter = 0;
+                    }
+                }
+            }
+
+            function appendStickerMessage(direction, fileName, headerText) {
+                const scrollFeed = document.getElementById('botMessageScrollFeed');
+                const timeStamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                const container = document.createElement('div');
+                container.className = `msg-container ${direction}`;
+
+                let mediaMarkup = "";
+                const ext = fileName.split('.').pop().toLowerCase();
+                const resolvedAssetPath = fileName; 
+
+                if (ext === "webm" || ext === "mp4") {
+                    mediaMarkup = `<video src="${resolvedAssetPath}" class="sticker-render-element" autoplay loop muted playsinline></video>`;
+                } else {
+                    mediaMarkup = `<img src="${resolvedAssetPath}" class="sticker-render-element" alt="sticker">`;
+                }
+
+                container.innerHTML = `
+                    <div style="font-size:11px; color:#a19cb9; margin-bottom:3px; font-weight:bold;">${headerText}</div>
+                    <div class="sticker-card">${mediaMarkup}</div>
+                    <div class="msg-info-footer">${timeStamp}</div>
+                `;
+
+                scrollFeed.appendChild(container);
+                scrollFeed.scrollTop = scrollFeed.scrollHeight;
+
+                // 🔔 Trigger Notification Sound
+                try {
+                    soundEngine.currentTime = 0;
+                    soundEngine.play();
+                } catch(audioErr) { console.log("Audio play blocked: ", audioErr); }
+            }
+
+            document.getElementById('triggerComputeChart').addEventListener('click', () => {
+                const totalCap = parseFloat(document.getElementById('capitalAssetFlow').value);
+                const sequenceSteps = parseInt(document.getElementById('stepSequenceLimit').value);
+                const tableZone = document.getElementById('calcTableRenderZone');
+
+                if(isNaN(totalCap) || isNaN(sequenceSteps) || totalCap <= 0 || sequenceSteps <= 0) {
+                    tableZone.innerHTML = '<p style="color:#ff0055; text-align:center;">⚠️ Provide functional calculations metrics.</p>';
+                    return;
+                }
+
+                let sumWeights = 0;
+                for(let i=0; i<sequenceSteps; i++) sumWeights += Math.pow(2, i);
+                let seedUnit = totalCap / sumWeights;
+
+                let matrixHTML = '<table class="step-table"><tr><th>STEP</th><th>BET CAPITAL</th><th>ACCUMULATED</th></tr>';
+                let runningCost = 0;
+                for(let i=1; i<=sequenceSteps; i++) {
+                    let exactBet = seedUnit * Math.pow(2, i-1);
+                    runningCost += exactBet;
+                    matrixHTML += `<tr><td>Step ${i}</td><td class="td-amount">${Math.max(1, Math.round(exactBet))}</td><td class="td-cost">${Math.round(runningCost)}</td></tr>`;
+                }
+                matrixHTML += '</table>';
+                tableZone.innerHTML = matrixHTML;
+            });
+        })();
+    </script>
+</body>
+</html>
